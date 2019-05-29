@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="airship-location-cordova"
+    version="11.1.0">
+
+    <name>Airship Location Plugin</name>
+    <description>Cordova plugin to install the Airship Location module</description>
+    <license>Apache 2.0</license>
+    <keywords>location,cordova,airship</keywords>
+    <repo>https://github.com/urbanairship/airship-location-cordova</repo>
+
+    <engines>
+        <engine name="cordova-android" version=">=4.1.0"/>
+        <engine name="cordova-ios" version=">=5.0.1"/>
+        <engine name="cordova" version=">=9.0.1"/>
+    </engines>
+
+    <dependency id="urbanairship-cordova" version=">=8.0.0"/>
+
+    <js-module name="AirshipLocationPlugin" src="www/AirshipLocationPlugin.js">
+        <clobbers target="AirshipLocation"/>
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+
+        <config-file parent="/widget" target="res/xml/config.xml">
+            <feature name="AirshipLocation">
+                <param
+                name="android-package"
+                value="com.urbanairship.cordova.AirshipLocationPlugin"/>
+                <param
+                name="onload"
+                value="true"/>
+            </feature>
+        </config-file>
+
+        <!-- android location permissions -->
+        <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/uses-permission" xmlns:android="http://schemas.android.com/apk/res/android">
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        </edit-config>
+
+        <!-- android plugin interface -->
+        <source-file
+        src="src/android/AirshipLocationPlugin.java"
+        target-dir="src/com/urbanairship/cordova"/>
+
+    </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+
+        <config-file parent="/widget" target="config.xml">
+            <feature name="AirshipLocation">
+                <param name="ios-package" value="AirshipLocationPlugin"/>
+                <param name="onload" value="true"/>
+            </feature>
+        </config-file>
+
+        <!-- ios plugin interface -->
+        <header-file src="src/ios/AirshipLocationPlugin.h"/>
+        <source-file src="src/ios/AirshipLocationPlugin.m"/>
+
+        <!-- ios location framework -->
+        <podspec>
+            <config>
+                <source url="https://github.com/CocoaPods/Specs.git"/>
+            </config>
+            <pods use-frameworks="true">
+                <pod name="UrbanAirship-iOS-Location" spec="11.1.0" />
+            </pods>
+        </podspec>
+
+        <!-- system frameworks -->
+        <framework src="CoreLocation.framework" />
+    </platform>
+
+</plugin>
