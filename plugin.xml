@@ -46,6 +46,11 @@
         src="src/android/AirshipLocationPlugin.java"
         target-dir="src/com/urbanairship/cordova"/>
 
+        <framework
+            custom="true"
+            src="src/android/build-extras.gradle"
+            type="gradleReference"/>
+
     </platform>
 
     <!-- ios -->
