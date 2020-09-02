@@ -73,7 +73,7 @@
                 <source url="https://github.com/CocoaPods/Specs.git"/>
             </config>
             <pods use-frameworks="true">
-                <pod name="UrbanAirship-iOS-Location" spec="11.1.0" />
+                <pod name="Airship/Location" spec="13.5.4" />
             </pods>
         </podspec>
 
