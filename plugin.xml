@@ -2,7 +2,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="airship-location-cordova"
-    version="11.1.0">
+    version="12.0.0">
 
     <name>Airship Location Plugin</name>
     <description>Cordova plugin to install the Airship Location module</description>

@@ -1,6 +1,6 @@
 {
   "name": "airship-location-cordova",
-  "version": "11.1.0",
+  "version": "12.0.0",
   "description": "Cordova plugin to install the Airship location module",
   "repository": {
     "type": "git",
