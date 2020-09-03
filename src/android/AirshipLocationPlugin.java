@@ -11,7 +11,7 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import com.urbanairship.UAirship;
+import com.urbanairship.location.AirshipLocationManager;
 import com.urbanairship.util.HelperActivity;
 
 import org.apache.cordova.CallbackContext;
@@ -97,12 +97,12 @@ public class AirshipLocationPlugin extends CordovaPlugin {
             RequestPermissionsTask task = new RequestPermissionsTask(context, new RequestPermissionsTask.Callback() {
                 @Override
                 public void onResult(boolean enabled) {
-                    UAirship.shared().getLocationClient().setLocationUpdatesEnabled(enabled);
+                    AirshipLocationManager.shared().setLocationUpdatesEnabled(enabled);
                 }
             });
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
-            UAirship.shared().getLocationClient().setLocationUpdatesEnabled(enabled);
+            AirshipLocationManager.shared().setLocationUpdatesEnabled(enabled);
             callbackContext.success();
         }
     }
@@ -117,7 +117,6 @@ public class AirshipLocationPlugin extends CordovaPlugin {
             return false;
         }
 
-        Context context = UAirship.getApplicationContext();
         return ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED &&
                 ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED;
     }
@@ -164,7 +163,7 @@ public class AirshipLocationPlugin extends CordovaPlugin {
      * @param callbackContext The callback context.
      */
     void isLocationEnabled(@NonNull JSONArray data, @NonNull CallbackContext callbackContext) {
-        int value = UAirship.shared().getLocationClient().isLocationUpdatesEnabled() ? 1 : 0;
+        int value = AirshipLocationManager.shared().isLocationUpdatesEnabled() ? 1 : 0;
         callbackContext.success(value);
     }
 
@@ -178,7 +177,7 @@ public class AirshipLocationPlugin extends CordovaPlugin {
      */
     void setBackgroundLocationEnabled(@NonNull JSONArray data, @NonNull CallbackContext callbackContext) throws JSONException {
         boolean enabled = data.getBoolean(0);
-        UAirship.shared().getLocationClient().setBackgroundLocationAllowed(enabled);
+        AirshipLocationManager.shared().setBackgroundLocationAllowed(enabled);
         callbackContext.success();
     }
 
@@ -189,7 +188,7 @@ public class AirshipLocationPlugin extends CordovaPlugin {
      * @param callbackContext The callback context.
      */
     void isBackgroundLocationEnabled(@NonNull JSONArray data, @NonNull CallbackContext callbackContext) {
-        int value = UAirship.shared().getLocationClient().isBackgroundLocationAllowed() ? 1 : 0;
+        int value = AirshipLocationManager.shared().isBackgroundLocationAllowed() ? 1 : 0;
         callbackContext.success(value);
     }
 }
