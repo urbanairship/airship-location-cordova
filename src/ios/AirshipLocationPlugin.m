@@ -19,7 +19,7 @@ typedef void (^UACordovaExecutionBlock)(NSArray *args, UACordovaCompletionHandle
 - (void)pluginInitialize {
     UA_LINFO("Initializing Airship location cordova plugin.");
 
-    self.location = [UALocation sharedLocation];
+    self.location = [UALocation shared];
 }
 
 - (void)performCallbackWithCommand:(CDVInvokedUrlCommand *)command withBlock:(UACordovaExecutionBlock)block {
@@ -37,11 +37,28 @@ typedef void (^UACordovaExecutionBlock)(NSArray *args, UACordovaCompletionHandle
     }];
 }
 
-- (CDVPluginResult *)pluginResultForValue:(id)value status:(CDVCommandStatus)status{
+/**
+ * Helper method to create a plugin result with the specified value.
+ *
+ * @param value The result's value.
+ * @param status The result's status.
+ * @returns A CDVPluginResult with specified value.
+ */
+- (CDVPluginResult *)pluginResultForValue:(id)value status:(CDVCommandStatus)status {
+    /*
+     NSString -> String
+     NSNumber --> (Integer | Double)
+     NSArray --> Array
+     NSDictionary --> Object
+     NSNull --> no return value
+     nil -> no return value
+     */
+
     // String
     if ([value isKindOfClass:[NSString class]]) {
+        NSCharacterSet *characters = [NSCharacterSet URLHostAllowedCharacterSet];
         return [CDVPluginResult resultWithStatus:status
-                                 messageAsString:[value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                                 messageAsString:[value stringByAddingPercentEncodingWithAllowedCharacters:characters]];
     }
 
     // Number
@@ -75,6 +92,7 @@ typedef void (^UACordovaExecutionBlock)(NSArray *args, UACordovaCompletionHandle
         return [CDVPluginResult resultWithStatus:status];
     }
 
+    UA_LERR(@"Cordova callback block returned unrecognized type: %@", NSStringFromClass([value class]));
     return [CDVPluginResult resultWithStatus:status];
 }
 
@@ -103,9 +121,12 @@ typedef void (^UACordovaExecutionBlock)(NSArray *args, UACordovaCompletionHandle
         BOOL enabled = [[args objectAtIndex:0] boolValue];
         UA_LTRACE("setLocationEnabled set to:%@", enabled ? @"true" : @"false");
 
-        self.location.locationUpdatesEnabled = enabled;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.location.locationUpdatesEnabled = enabled;
 
-        completionHandler(CDVCommandStatus_OK, nil);
+            completionHandler(CDVCommandStatus_OK, nil);
+        });
+
     }];
 }
 
@@ -115,9 +136,11 @@ typedef void (^UACordovaExecutionBlock)(NSArray *args, UACordovaCompletionHandle
     [self performCallbackWithCommand:command withBlock:^(NSArray *args, UACordovaCompletionHandler completionHandler) {
         BOOL enabled = [[args objectAtIndex:0] boolValue];
 
-        self.location.backgroundLocationUpdatesAllowed = enabled;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.location.backgroundLocationUpdatesAllowed = enabled;
 
-        completionHandler(CDVCommandStatus_OK, nil);
+            completionHandler(CDVCommandStatus_OK, nil);
+        });
     }];
 }
 
