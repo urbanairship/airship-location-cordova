@@ -25,7 +25,8 @@ Please visit http://support.urbanairship.com/ for any issues integrating or usin
 
 ### Requirements:
  - cordova >= 9.0.1
- - cordova-ios >= 5.0.1
+ - cordova-ios >= 6.1.0
+ - cordova-android >= 9.0.0
  - cococapods >= 1.7.3
  - urbanairship-cordova plugin  >= 8.0.0
 
