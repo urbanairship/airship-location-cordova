@@ -7,7 +7,6 @@ Patch release updating iOS and Android Location SDK versions to 14.1.2 and 14.0.
 ### Changes
 - Xcode 12 is now required.
 - Requires Cordova iOS 6.1.0+, Cordova Android 9.0.0+.
-- Fixed conflict with play services with Cordova Android 9.0.0.
 
 ## Version 12.0.0 - September 3, 2020
 

@@ -24,10 +24,6 @@
 
     <!-- android -->
     <platform name="android">
-        <config-file target="config.xml" parent="/*">
-            <preference name="GradlePluginGoogleServicesEnabled" value="true" />
-            <preference name="GradlePluginGoogleServicesVersion" value="4.2.0" />
-        </config-file>
         <config-file parent="/widget" target="res/xml/config.xml">
             <feature name="AirshipLocation">
                 <param
