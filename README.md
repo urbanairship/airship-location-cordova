@@ -1,4 +1,4 @@
-# airship-location-cordova
+# airship-location-cordova (Deprecated)
 
 A Cordova plugin that automatically links the Airship Location modules in iOS and Android.
 
